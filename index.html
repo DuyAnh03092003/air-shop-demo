@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VietJet SkyShop</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E8001E;--red2:#C0001A;--red-light:#FFF0F0;
+  --gold:#F5A623;--gold-light:#FFF8EC;
+  --dark:#18181B;--gray:#F4F4F6;--muted:#6B6B7A;
+  --white:#FFFFFF;--border:#E8E8EE;
+  --radius:14px;--radius-sm:9px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--gray);color:var(--dark);min-height:100vh;overflow-x:hidden}
+
+/* ─── TOPBAR ─── */
+.topbar{background:var(--red);color:white;text-align:center;font-size:12px;font-weight:700;letter-spacing:1px;padding:8px;position:sticky;top:0;z-index:100}
+.topbar span{opacity:.8;margin:0 6px}
+
+/* ─── HEADER ─── */
+header{background:white;border-bottom:1px solid var(--border);position:sticky;top:33px;z-index:99}
+.header-inner{max-width:1280px;margin:0 auto;padding:0 32px;height:68px;display:flex;align-items:center;gap:24px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo-mark{width:42px;height:42px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:24px;height:24px}
+.logo-words{line-height:1}
+.logo-words .brand{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--red);letter-spacing:2px}
+.logo-words .sub{font-size:9px;font-weight:800;color:var(--muted);letter-spacing:3px;display:block;margin-top:-2px}
+
+.nav-links{display:flex;gap:2px;margin-left:16px}
+.nav-link{padding:8px 14px;font-size:13px;font-weight:700;color:var(--muted);border-radius:var(--radius-sm);cursor:pointer;transition:.15s;white-space:nowrap}
+.nav-link:hover,.nav-link.active{color:var(--red);background:var(--red-light)}
+
+.header-search{flex:1;max-width:380px;margin-left:auto;position:relative}
+.header-search input{width:100%;padding:10px 44px 10px 16px;border:1.5px solid var(--border);border-radius:30px;font-family:'Nunito',sans-serif;font-size:13px;outline:none;transition:.2s;color:var(--dark)}
+.header-search input:focus{border-color:var(--red)}
+.header-search .s-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:18px}
+
+.header-actions{display:flex;align-items:center;gap:8px;margin-left:16px}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:.15s;color:var(--muted);font-size:20px}
+.icon-btn:hover{border-color:var(--red);color:var(--red);background:var(--red-light)}
+.badge-dot{position:absolute;top:6px;right:6px;width:9px;height:9px;background:var(--red);border-radius:50%;border:2px solid white}
+.cart-count{position:absolute;top:4px;right:4px;background:var(--red);color:white;border-radius:20px;font-size:9px;font-weight:800;padding:1px 5px;min-width:16px;text-align:center}
+
+.login-btn{background:var(--red);color:white;border:none;border-radius:30px;padding:9px 20px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;transition:.15s}
+.login-btn:hover{background:var(--red2)}
+
+/* ─── FLIGHT BAR ─── */
+.flight-bar{background:linear-gradient(90deg,#1A1A2E,#2D2D4A);padding:12px 0}
+.flight-inner{max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:center;gap:24px}
+.flight-tag{background:var(--red);color:white;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:4px 12px;border-radius:20px}
+.flight-route{color:white;font-size:16px;font-weight:800}
+.flight-route .arrow{color:var(--gold);margin:0 8px}
+.flight-meta{color:rgba(255,255,255,.55);font-size:12px;font-weight:600;margin-top:1px}
+.flight-countdown{margin-left:auto;text-align:right}
+.flight-countdown .time{color:var(--gold);font-size:22px;font-weight:900;font-family:'Bebas Neue',sans-serif;letter-spacing:2px}
+.flight-countdown .label{color:rgba(255,255,255,.5);font-size:10px;font-weight:700;letter-spacing:1px}
+.seat-pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:6px 16px;color:rgba(255,255,255,.8);font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px}
+.seat-pill i{color:var(--gold);font-size:14px}
+
+/* ─── HERO ─── */
+.hero{background:var(--red);position:relative;overflow:hidden;padding:60px 32px}
+.hero::before{content:'';position:absolute;right:-100px;top:-100px;width:500px;height:500px;background:rgba(255,255,255,.04);border-radius:50%}
+.hero::after{content:'';position:absolute;left:40%;bottom:-80px;width:300px;height:300px;background:rgba(255,255,255,.03);border-radius:50%}
+.hero-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:60px}
+.hero-left{flex:1;z-index:1}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:6px 14px;margin-bottom:20px}
+.hero-eyebrow span{color:rgba(255,255,255,.9);font-size:12px;font-weight:700;letter-spacing:.5px}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:72px;color:white;line-height:1;letter-spacing:2px;margin-bottom:12px}
+.hero-title em{color:var(--gold);font-style:normal}
+.hero-subtitle{color:rgba(255,255,255,.7);font-size:16px;font-weight:600;margin-bottom:36px;line-height:1.6}
+.hero-cta{display:flex;gap:12px;align-items:center}
+.btn-primary{background:white;color:var(--red);border:none;border-radius:30px;padding:14px 32px;font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.btn-ghost{background:transparent;color:white;border:2px solid rgba(255,255,255,.4);border-radius:30px;padding:13px 28px;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:.2s}
+.btn-ghost:hover{border-color:white;background:rgba(255,255,255,.1)}
+.hero-stats{display:flex;gap:32px;margin-top:40px}
+.hero-stat .num{color:white;font-size:28px;font-weight:900;font-family:'Bebas Neue',sans-serif;letter-spacing:1px}
+.hero-stat .txt{color:rgba(255,255,255,.55);font-size:11px;font-weight:700;letter-spacing:1px;margin-top:-2px}
+.hero-right{flex:1;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.hero-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:var(--radius);padding:20px;cursor:pointer;transition:.2s;backdrop-filter:blur(4px)}
+.hero-card:hover{background:rgba(255,255,255,.18);transform:translateY(-3px)}
+.hero-card-icon{font-size:40px;margin-bottom:10px}
+.hero-card-name{color:white;font-size:13px;font-weight:800;margin-bottom:4px}
+.hero-card-count{color:rgba(255,255,255,.55);font-size:11px;font-weight:600}
+.hero-card-price{color:var(--gold);font-size:15px;font-weight:900;margin-top:8px}
+
+/* ─── CATS ─── */
+.cats-section{background:white;border-bottom:1px solid var(--border);padding:0 32px}
+.cats-inner{max-width:1280px;margin:0 auto;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.cats-inner::-webkit-scrollbar{display:none}
+.cat-tab{padding:18px 20px;display:flex;align-items:center;gap:8px;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:.15s;color:var(--muted);font-weight:700;font-size:13px}
+.cat-tab:hover{color:var(--red)}
+.cat-tab.active{color:var(--red);border-bottom-color:var(--red)}
+.cat-tab .emoji{font-size:18px}
+
+/* ─── MAIN LAYOUT ─── */
+.main{max-width:1280px;margin:0 auto;padding:40px 32px;display:grid;grid-template-columns:260px 1fr;gap:32px}
+
+/* ─── SIDEBAR ─── */
+.sidebar{}
+.filter-card{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-bottom:16px}
+.filter-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.filter-title{font-size:14px;font-weight:800;color:var(--dark)}
+.filter-clear{font-size:11px;font-weight:700;color:var(--red);cursor:pointer}
+.filter-body{padding:16px 20px}
+.filter-label{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;display:block}
+.price-range{display:flex;gap:8px;align-items:center;margin-bottom:16px}
+.price-input{flex:1;padding:8px 10px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;outline:none;color:var(--dark)}
+.price-input:focus{border-color:var(--red)}
+.price-sep{color:var(--muted);font-weight:700}
+.check-list{display:flex;flex-direction:column;gap:8px}
+.check-item{display:flex;align-items:center;gap:10px;cursor:pointer}
+.check-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--red);cursor:pointer}
+.check-item label{font-size:13px;font-weight:600;color:var(--dark);cursor:pointer;flex:1}
+.check-item .count{font-size:11px;font-weight:700;color:var(--muted)}
+.rating-row{display:flex;align-items:center;gap:6px;cursor:pointer;padding:4px 0}
+.rating-row .stars{color:var(--gold);font-size:13px}
+.rating-row span{font-size:12px;font-weight:600;color:var(--muted)}
+.filter-divider{height:1px;background:var(--border);margin:14px 0}
+
+.promo-sidebar{background:linear-gradient(135deg,var(--gold),#E8951A);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.promo-sidebar h3{color:white;font-size:15px;font-weight:800;margin-bottom:4px}
+.promo-sidebar p{color:rgba(255,255,255,.85);font-size:12px;margin-bottom:14px;line-height:1.5}
+.promo-sidebar button{background:white;color:var(--gold);border:none;border-radius:30px;padding:8px 18px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;width:100%}
+
+/* ─── PRODUCTS AREA ─── */
+.products-area{}
+.products-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.toolbar-left{display:flex;align-items:center;gap:10px}
+.result-count{font-size:14px;font-weight:700;color:var(--dark)}
+.result-count span{color:var(--red)}
+.active-filter-tag{background:var(--red-light);color:var(--red);font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+.active-filter-tag i{font-size:12px}
+.toolbar-right{display:flex;align-items:center;gap:10px}
+.sort-select{padding:8px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;color:var(--dark);outline:none;cursor:pointer}
+.sort-select:focus{border-color:var(--red)}
+.view-btns{display:flex;gap:4px}
+.view-btn{width:36px;height:36px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:18px;transition:.15s}
+.view-btn:hover,.view-btn.active{border-color:var(--red);color:var(--red);background:var(--red-light)}
+
+/* ─── FEATURED BANNER ─── */
+.feat-banner{background:linear-gradient(135deg,#1A1A2E,#2D2D4A);border-radius:var(--radius);padding:24px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative}
+.feat-banner::after{content:'✈';position:absolute;right:140px;font-size:120px;opacity:.06;top:-20px}
+.feat-banner-left h2{color:white;font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;margin-bottom:4px}
+.feat-banner-left p{color:rgba(255,255,255,.6);font-size:13px;font-weight:600}
+.feat-banner-right{display:flex;gap:20px;align-items:center}
+.feat-stat{text-align:center}
+.feat-stat .n{color:var(--gold);font-size:24px;font-weight:900;font-family:'Bebas Neue',sans-serif}
+.feat-stat .l{color:rgba(255,255,255,.5);font-size:10px;font-weight:700;letter-spacing:1px}
+.feat-stat-sep{width:1px;height:40px;background:rgba(255,255,255,.12)}
+.feat-banner button{background:var(--gold);color:white;border:none;border-radius:30px;padding:11px 22px;font-family:'Nunito',sans-serif;font-weight:800;font-size:13px;cursor:pointer;transition:.2s;white-space:nowrap}
+.feat-banner button:hover{transform:translateY(-2px)}
+
+/* ─── PRODUCT GRID ─── */
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+.product-card{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:.2s;position:relative}
+.product-card:hover{border-color:var(--red);box-shadow:0 8px 32px rgba(232,0,30,.1);transform:translateY(-3px)}
+
+.card-img-wrap{position:relative;background:var(--gray);height:190px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card-emoji{font-size:64px;transition:.3s}
+.product-card:hover .card-emoji{transform:scale(1.12)}
+.card-badge{position:absolute;top:10px;left:10px;font-size:10px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.5px}
+.badge-sale{background:var(--red);color:white}
+.badge-new{background:var(--gold);color:white}
+.badge-hot{background:#7C3AED;color:white}
+.card-wish{position:absolute;top:10px;right:10px;width:32px;height:32px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;border:1px solid var(--border);transition:.15s;color:var(--muted)}
+.card-wish:hover,.card-wish.active{color:var(--red);border-color:var(--red-light);background:var(--red-light)}
+
+.card-body{padding:14px 16px 16px}
+.card-brand{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.card-name{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:6px;line-height:1.4}
+.card-stars{color:var(--gold);font-size:11px;margin-bottom:10px;display:flex;align-items:center;gap:4px}
+.card-stars span{color:var(--muted);font-weight:600}
+.card-footer{display:flex;align-items:center;justify-content:space-between}
+.card-price{display:flex;align-items:baseline;gap:6px}
+.price-now{font-size:16px;font-weight:900;color:var(--red)}
+.price-was{font-size:11px;font-weight:700;color:var(--muted);text-decoration:line-through}
+.add-to-cart{background:var(--red);color:white;border:none;border-radius:var(--radius-sm);padding:9px 14px;font-family:'Nunito',sans-serif;font-weight:800;font-size:12px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.add-to-cart:hover{background:var(--red2);transform:scale(1.04)}
+.add-to-cart.added{background:#16a34a}
+
+/* ─── PAGINATION ─── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:40px}
+.page-btn{width:38px;height:38px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:white;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;color:var(--dark)}
+.page-btn:hover{border-color:var(--red);color:var(--red);background:var(--red-light)}
+.page-btn.active{background:var(--red);color:white;border-color:var(--red)}
+
+/* ─── FOOTER ─── */
+footer{background:var(--dark);color:white;padding:48px 32px 32px;margin-top:60px}
+.footer-inner{max-width:1280px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:40px}
+.footer-brand .logo-mark{background:var(--red)}
+.footer-brand .brand{color:white}
+.footer-desc{color:rgba(255,255,255,.45);font-size:13px;font-weight:600;margin:16px 0;line-height:1.7}
+.footer-socials{display:flex;gap:10px}
+.social-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.6);font-size:17px;transition:.15s}
+.social-btn:hover{background:var(--red);border-color:var(--red);color:white}
+.footer-col h4{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:16px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{color:rgba(255,255,255,.6);text-decoration:none;font-size:13px;font-weight:600;transition:.15s}
+.footer-col ul li a:hover{color:white}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;align-items:center;justify-content:space-between}
+.footer-copy{color:rgba(255,255,255,.35);font-size:12px;font-weight:600}
+.footer-bottom-links{display:flex;gap:24px}
+.footer-bottom-links a{color:rgba(255,255,255,.35);font-size:12px;font-weight:700;text-decoration:none;transition:.15s}
+.footer-bottom-links a:hover{color:white}
+
+/* ─── CART DRAWER ─── */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:.25s}
+.cart-overlay.open{opacity:1;pointer-events:all}
+.cart-drawer{position:fixed;right:0;top:0;bottom:0;width:420px;background:white;z-index:201;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+.cart-drawer.open{transform:translateX(0)}
+.cart-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.cart-header h3{font-size:18px;font-weight:800}
+.cart-close{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--muted)}
+.cart-close:hover{border-color:var(--red);color:var(--red)}
+.cart-items{flex:1;overflow-y:auto;padding:16px 24px}
+.cart-item{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.cart-item-img{width:64px;height:64px;background:var(--gray);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+.cart-item-info{flex:1}
+.cart-item-name{font-size:13px;font-weight:700;margin-bottom:2px}
+.cart-item-brand{font-size:11px;color:var(--muted);font-weight:600;margin-bottom:10px}
+.cart-item-ctrl{display:flex;align-items:center;gap:8px}
+.qty-btn{width:28px;height:28px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:white;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--dark);transition:.15s}
+.qty-btn:hover{border-color:var(--red);color:var(--red)}
+.qty-val{font-size:14px;font-weight:800;min-width:20px;text-align:center}
+.cart-item-price{font-size:15px;font-weight:900;color:var(--red)}
+.cart-footer{padding:20px 24px;border-top:1px solid var(--border)}
+.cart-total{display:flex;justify-content:space-between;margin-bottom:16px}
+.cart-total .label{font-size:15px;font-weight:700}
+.cart-total .amount{font-size:22px;font-weight:900;color:var(--red)}
+.checkout-btn{width:100%;background:var(--red);color:white;border:none;border-radius:30px;padding:15px;font-family:'Nunito',sans-serif;font-weight:800;font-size:16px;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.checkout-btn:hover{background:var(--red2);transform:translateY(-2px)}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--dark);color:white;padding:12px 24px;border-radius:30px;font-size:13px;font-weight:700;z-index:300;transition:.3s;opacity:0;display:flex;align-items:center;gap:8px}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast i{color:#4ade80;font-size:16px}
+
+@media(max-width:1100px){
+  .hero-right{display:none}
+  .main{grid-template-columns:220px 1fr}
+  .product-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:800px){
+  .main{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .header-inner{padding:0 16px}
+  .nav-links{display:none}
+  .hero{padding:40px 16px}
+  .hero-title{font-size:48px}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  ✈ FREE DELIVERY TO YOUR SEAT &nbsp;<span>|</span>&nbsp; EARN SKYPOINTS ON EVERY PURCHASE &nbsp;<span>|</span>&nbsp; EXCLUSIVE INFLIGHT DEALS
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 13L12 4L21 13" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5 11V19C5 19.55 5.45 20 6 20H9V15H15V20H18C18.55 20 19 19.55 19 19V11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="logo-words">
+        <div class="brand">VIETJET</div>
+        <span class="sub">SKYSHOP</span>
+      </div>
+    </a>
+
+    <nav class="nav-links">
+      <div class="nav-link active" onclick="setNav(this)">Home</div>
+      <div class="nav-link" onclick="setNav(this)">Beauty</div>
+      <div class="nav-link" onclick="setNav(this)">Fashion</div>
+      <div class="nav-link" onclick="setNav(this)">Snacks</div>
+      <div class="nav-link" onclick="setNav(this)">Gifts</div>
+      <div class="nav-link" onclick="setNav(this)">Watches</div>
+      <div class="nav-link" onclick="setNav(this)">Toys</div>
+    </nav>
+
+    <div class="header-search">
+      <input type="text" placeholder="Search perfume, chocolate, watch..."/>
+      <i class="ti ti-search s-icon"></i>
+    </div>
+
+    <div class="header-actions">
+      <div class="icon-btn" onclick="toggleWishlist()" title="Wishlist">
+        <i class="ti ti-heart"></i>
+        <div class="badge-dot"></div>
+      </div>
+      <div class="icon-btn" onclick="openCart()" title="Cart">
+        <i class="ti ti-shopping-cart"></i>
+        <div class="cart-count" id="cartCount">2</div>
+      </div>
+      <button class="login-btn">Sign In</button>
+    </div>
+  </div>
+</header>
+
+<!-- FLIGHT BAR -->
+<div class="flight-bar">
+  <div class="flight-inner">
+    <div class="flight-tag">✈ LIVE FLIGHT</div>
+    <div>
+      <div class="flight-route">SGN <span class="arrow">→</span> HAN &nbsp;·&nbsp; VJ123</div>
+      <div class="flight-meta">Monday, 18 May 2026 &nbsp;·&nbsp; Departs 09:40 · Arrives 11:55</div>
+    </div>
+    <div class="seat-pill">
+      <i class="ti ti-armchair"></i>
+      Row 24 · Seat B
+    </div>
+    <div class="flight-countdown">
+      <div class="time" id="countdown">01:23:45</div>
+      <div class="label">ORDER CLOSES IN</div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span>🎁 INFLIGHT EXCLUSIVE DEALS</span>
+      </div>
+      <div class="hero-title">SHOP AT<br><em>30,000</em><br>FEET HIGH</div>
+      <div class="hero-subtitle">Discover duty-free luxury, local specialties &<br>exclusive VietJet collections — delivered to your seat.</div>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="scrollToProducts()">
+          <i class="ti ti-shopping-bag"></i>
+          Shop Now
+        </button>
+        <button class="btn-ghost">View Catalogue</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num">500+</div>
+          <div class="txt">PRODUCTS</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">40+</div>
+          <div class="txt">BRANDS</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">2X</div>
+          <div class="txt">SKYPOINTS</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card" onclick="filterCat('Beauty')">
+        <div class="hero-card-icon">💄</div>
+        <div class="hero-card-name">Beauty & Fragrance</div>
+        <div class="hero-card-count">128 products</div>
+        <div class="hero-card-price">From $12</div>
+      </div>
+      <div class="hero-card" onclick="filterCat('Snacks')">
+        <div class="hero-card-icon">🍫</div>
+        <div class="hero-card-name">Snacks & Drinks</div>
+        <div class="hero-card-count">64 products</div>
+        <div class="hero-card-price">From $4</div>
+      </div>
+      <div class="hero-card" onclick="filterCat('Fashion')">
+        <div class="hero-card-icon">👜</div>
+        <div class="hero-card-name">Fashion & Bags</div>
+        <div class="hero-card-count">92 products</div>
+        <div class="hero-card-price">From $25</div>
+      </div>
+      <div class="hero-card" onclick="filterCat('Watches')">
+        <div class="hero-card-icon">⌚</div>
+        <div class="hero-card-name">Watches & Tech</div>
+        <div class="hero-card-count">47 products</div>
+        <div class="hero-card-price">From $89</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY TABS -->
+<div class="cats-section">
+  <div class="cats-inner" id="catTabs">
+    <div class="cat-tab active" onclick="setCat(this,'All')"><span class="emoji">🛍️</span> All Products</div>
+    <div class="cat-tab" onclick="setCat(this,'Beauty')"><span class="emoji">💄</span> Beauty</div>
+    <div class="cat-tab" onclick="setCat(this,'Fragrance')"><span class="emoji">🌸</span> Fragrance</div>
+    <div class="cat-tab" onclick="setCat(this,'Snacks')"><span class="emoji">🍫</span> Snacks</div>
+    <div class="cat-tab" onclick="setCat(this,'Fashion')"><span class="emoji">👜</span> Fashion</div>
+    <div class="cat-tab" onclick="setCat(this,'Watches')"><span class="emoji">⌚</span> Watches</div>
+    <div class="cat-tab" onclick="setCat(this,'Toys')"><span class="emoji">🧸</span> Toys & Kids</div>
+    <div class="cat-tab" onclick="setCat(this,'Gifts')"><span class="emoji">🎁</span> Gift Sets</div>
+    <div class="cat-tab" onclick="setCat(this,'Local')"><span class="emoji">🇻🇳</span> Local Specialties</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="productsSection">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="promo-sidebar">
+      <h3>🌟 SkyJoy Members</h3>
+      <p>Earn double SkyPoints on every purchase during this flight!</p>
+      <button>Join Free →</button>
+    </div>
+
+    <div class="filter-card">
+      <div class="filter-head">
+        <div class="filter-title">Filters</div>
+        <div class="filter-clear" onclick="clearFilters()">Clear all</div>
+      </div>
+      <div class="filter-body">
+        <span class="filter-label">Price Range (USD)</span>
+        <div class="price-range">
+          <input class="price-input" type="number" placeholder="Min" value="0"/>
+          <span class="price-sep">—</span>
+          <input class="price-input" type="number" placeholder="Max" value="200"/>
+        </div>
+
+        <div class="filter-divider"></div>
+        <span class="filter-label">Brand</span>
+        <div class="check-list">
+          <div class="check-item"><input type="checkbox" id="b1" checked/><label for="b1">Guerlain</label><span class="count">12</span></div>
+          <div class="check-item"><input type="checkbox" id="b2"/><label for="b2">MAC Cosmetics</label><span class="count">8</span></div>
+          <div class="check-item"><input type="checkbox" id="b3"/><label for="b3">Godiva</label><span class="count">5</span></div>
+          <div class="check-item"><input type="checkbox" id="b4"/><label for="b4">Casio</label><span class="count">9</span></div>
+          <div class="check-item"><input type="checkbox" id="b5"/><label for="b5">The Ordinary</label><span class="count">14</span></div>
+          <div class="check-item"><input type="checkbox" id="b6"/><label for="b6">Laneige</label><span class="count">7</span></div>
+        </div>
+
+        <div class="filter-divider"></div>
+        <span class="filter-label">Rating</span>
+        <div class="check-list">
+          <div class="rating-row"><input type="checkbox" id="r5"/><label for="r5"><span class="stars">★★★★★</span></label> <span style="font-size:12px;font-weight:600;color:var(--muted)">& up</span></div>
+          <div class="rating-row"><input type="checkbox" id="r4"/><label for="r4"><span class="stars">★★★★☆</span></label> <span style="font-size:12px;font-weight:600;color:var(--muted)">& up</span></div>
+          <div class="rating-row"><input type="checkbox" id="r3"/><label for="r3"><span class="stars">★★★☆☆</span></label> <span style="font-size:12px;font-weight:600;color:var(--muted)">& up</span></div>
+        </div>
+
+        <div class="filter-divider"></div>
+        <span class="filter-label">Availability</span>
+        <div class="check-list">
+          <div class="check-item"><input type="checkbox" id="av1" checked/><label for="av1">In Stock</label><span class="count">82</span></div>
+          <div class="check-item"><input type="checkbox" id="av2"/><label for="av2">On Sale</label><span class="count">31</span></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- PRODUCTS AREA -->
+  <div class="products-area">
+
+    <div class="feat-banner">
+      <div class="feat-banner-left">
+        <h2>✈ TODAY'S INFLIGHT SPECIALS</h2>
+        <p>Exclusive deals available only during this flight</p>
+      </div>
+      <div class="feat-banner-right">
+        <div class="feat-stat"><div class="n">31</div><div class="l">ON SALE</div></div>
+        <div class="feat-stat-sep"></div>
+        <div class="feat-stat"><div class="n">500</div><div class="l">PRODUCTS</div></div>
+        <div class="feat-stat-sep"></div>
+        <div class="feat-stat"><div class="n">2X</div><div class="l">POINTS</div></div>
+        <button onclick="showToast('Viewing all specials...')">Shop Specials →</button>
+      </div>
+    </div>
+
+    <div class="products-toolbar">
+      <div class="toolbar-left">
+        <div class="result-count"><span id="resultCount">24</span> products found</div>
+        <div class="active-filter-tag" onclick="clearFilters()">Guerlain <i class="ti ti-x"></i></div>
+        <div class="active-filter-tag" onclick="clearFilters()">In Stock <i class="ti ti-x"></i></div>
+      </div>
+      <div class="toolbar-right">
+        <select class="sort-select" onchange="handleSort(this)">
+          <option>Most Popular</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+          <option>Newest First</option>
+          <option>Best Rating</option>
+        </select>
+        <div class="view-btns">
+          <div class="view-btn active" title="Grid view"><i class="ti ti-layout-grid"></i></div>
+          <div class="view-btn" title="List view"><i class="ti ti-list"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-grid" id="productGrid">
+      <!-- Products injected by JS -->
+    </div>
+
+    <div class="pagination">
+      <div class="page-btn"><i class="ti ti-chevron-left"></i></div>
+      <div class="page-btn active">1</div>
+      <div class="page-btn" onclick="this.classList.add('active');document.querySelectorAll('.page-btn').forEach(b=>b!==this&&b.classList.remove('active'))">2</div>
+      <div class="page-btn" onclick="this.classList.add('active');document.querySelectorAll('.page-btn').forEach(b=>b!==this&&b.classList.remove('active'))">3</div>
+      <div class="page-btn">…</div>
+      <div class="page-btn" onclick="this.classList.add('active');document.querySelectorAll('.page-btn').forEach(b=>b!==this&&b.classList.remove('active'))">8</div>
+      <div class="page-btn"><i class="ti ti-chevron-right"></i></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 13L12 4L21 13" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M5 11V19C5 19.55 5.45 20 6 20H9V15H15V20H18C18.55 20 19 19.55 19 19V11" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="logo-words">
+            <div class="brand">VIETJET</div>
+            <span class="sub" style="color:rgba(255,255,255,.4)">SKYSHOP</span>
+          </div>
+        </div>
+        <p class="footer-desc">Your premium inflight shopping destination. Discover exclusive deals, duty-free luxury brands, and local Vietnamese specialties — all delivered to your seat at 30,000 feet.</p>
+        <div class="footer-socials">
+          <div class="social-btn"><i class="ti ti-brand-facebook"></i></div>
+          <div class="social-btn"><i class="ti ti-brand-instagram"></i></div>
+          <div class="social-btn"><i class="ti ti-brand-tiktok"></i></div>
+          <div class="social-btn"><i class="ti ti-brand-youtube"></i></div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#">Beauty & Skincare</a></li>
+          <li><a href="#">Fragrance</a></li>
+          <li><a href="#">Fashion & Bags</a></li>
+          <li><a href="#">Watches & Jewelry</a></li>
+          <li><a href="#">Snacks & Drinks</a></li>
+          <li><a href="#">Gift Sets</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">How to Order</a></li>
+          <li><a href="#">Delivery to Seat</a></li>
+          <li><a href="#">Returns Policy</a></li>
+          <li><a href="#">Track My Order</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>VietJet</h4>
+        <ul>
+          <li><a href="#">SkyJoy Program</a></li>
+          <li><a href="#">SkyPoints</a></li>
+          <li><a href="#">Book a Flight</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press Room</a></li>
+          <li><a href="#">About Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 VietJet Air. All rights reserved. SkyShop is an exclusive inflight retail service.</div>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Settings</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- CART OVERLAY -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <h3>🛒 Your Cart <span style="font-size:13px;color:var(--muted);font-weight:600">(2 items)</span></h3>
+    <div class="cart-close" onclick="closeCart()"><i class="ti ti-x"></i></div>
+  </div>
+  <div class="cart-items">
+    <div class="cart-item">
+      <div class="cart-item-img">🌸</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">Rose Mist Perfume 50ml</div>
+        <div class="cart-item-brand">Guerlain Paris</div>
+        <div class="cart-item-ctrl">
+          <div class="qty-btn" onclick="changeQty(this,-1)">−</div>
+          <div class="qty-val">1</div>
+          <div class="qty-btn" onclick="changeQty(this,1)">+</div>
+          <div style="margin-left:auto" class="cart-item-price">$38</div>
+        </div>
+      </div>
+    </div>
+    <div class="cart-item">
+      <div class="cart-item-img">🍫</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">Premium Chocolate Box Set</div>
+        <div class="cart-item-brand">Godiva Belgium</div>
+        <div class="cart-item-ctrl">
+          <div class="qty-btn" onclick="changeQty(this,-1)">−</div>
+          <div class="qty-val">1</div>
+          <div class="qty-btn" onclick="changeQty(this,1)">+</div>
+          <div style="margin-left:auto" class="cart-item-price">$22</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span class="label">Total</span>
+      <span class="amount">$60.00</span>
+    </div>
+    <button class="checkout-btn" onclick="showToast('Proceeding to checkout...');closeCart()">
+      <i class="ti ti-credit-card"></i>
+      Checkout · $60.00
+    </button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><i class="ti ti-circle-check"></i><span id="toastMsg">Added to cart!</span></div>
+
+<script>
+const products = [
+  {name:'Rose Mist Perfume 50ml',brand:'Guerlain Paris',emoji:'🌸',price:38,was:47,rating:4.9,reviews:128,badge:'sale',cat:'Fragrance'},
+  {name:'Premium Chocolate Box',brand:'Godiva Belgium',emoji:'🍫',price:22,was:null,rating:4.8,reviews:86,badge:'new',cat:'Snacks'},
+  {name:'Matte Lip Collection',brand:'MAC Cosmetics',emoji:'💄',price:18,was:24,rating:4.7,reviews:214,badge:'sale',cat:'Beauty'},
+  {name:'Vitamin C Serum 30ml',brand:'The Ordinary',emoji:'🧴',price:12,was:14,rating:4.6,reviews:309,badge:'sale',cat:'Beauty'},
+  {name:'Silk Scarf Vietnam',brand:'Khaisilk',emoji:'🧣',price:30,was:null,rating:5.0,reviews:44,badge:'hot',cat:'Fashion'},
+  {name:'Casio Edifice Watch',brand:'Casio Japan',emoji:'⌚',price:125,was:149,rating:4.9,reviews:67,badge:'sale',cat:'Watches'},
+  {name:'Water Sleeping Mask',brand:'Laneige Korea',emoji:'💧',price:28,was:null,rating:4.8,reviews:183,badge:'new',cat:'Beauty'},
+  {name:'Mini Tote Bag Leather',brand:'Charles & Keith',emoji:'👜',price:55,was:75,rating:4.5,reviews:92,badge:'sale',cat:'Fashion'},
+  {name:'Premium Green Tea 100g',brand:'Phuc Long',emoji:'🍵',price:8,was:null,rating:4.7,reviews:201,badge:null,cat:'Local'},
+  {name:'Pearl Earrings Set',brand:'TOUS Spain',emoji:'💎',price:65,was:85,rating:4.8,reviews:38,badge:'sale',cat:'Fashion'},
+  {name:'Kids Stuffed Panda',brand:'VietJet Collection',emoji:'🐼',price:19,was:null,rating:5.0,reviews:156,badge:'hot',cat:'Toys'},
+  {name:'Luxury Gift Box Set',brand:'VietJet Exclusive',emoji:'🎁',price:48,was:60,rating:4.9,reviews:72,badge:'sale',cat:'Gifts'},
+];
+
+let cartTotal = 60;
+let cartQty = 2;
+
+function renderProducts(list){
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = list.map((p,i)=>`
+    <div class="product-card" style="animation-delay:${i*0.05}s">
+      <div class="card-img-wrap">
+        <div class="card-emoji">${p.emoji}</div>
+        ${p.badge?`<div class="card-badge badge-${p.badge}">${p.badge==='sale'?`-${Math.round((1-p.price/p.was)*100)}%`:p.badge.toUpperCase()}</div>`:''}
+        <div class="card-wish" onclick="toggleWish(this)" aria-label="Add to wishlist"><i class="ti ti-heart"></i></div>
+      </div>
+      <div class="card-body">
+        <div class="card-brand">${p.brand}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-stars">
+          ${'★'.repeat(Math.round(p.rating))}${'☆'.repeat(5-Math.round(p.rating))}
+          <span>(${p.reviews})</span>
+        </div>
+        <div class="card-footer">
+          <div class="card-price">
+            <span class="price-now">$${p.price}</span>
+            ${p.was?`<span class="price-was">$${p.was}</span>`:''}
+          </div>
+          <button class="add-to-cart" onclick="addToCart(this,'$${p.price}')">
+            <i class="ti ti-shopping-cart"></i> Add
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('resultCount').textContent = list.length;
+}
+
+renderProducts(products);
+
+function setCat(el, cat){
+  document.querySelectorAll('.cat-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const filtered = cat==='All'?products:products.filter(p=>p.cat===cat);
+  renderProducts(filtered.length?filtered:products);
+}
+
+function filterCat(cat){
+  document.getElementById('productsSection').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{
+    document.querySelectorAll('.cat-tab').forEach(t=>{
+      if(t.textContent.includes(cat)) t.click();
+    });
+  },400);
+}
+
+function setNav(el){
+  document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function clearFilters(){
+  document.querySelectorAll('.active-filter-tag').forEach(t=>t.remove());
+  renderProducts(products);
+}
+
+function addToCart(btn, price){
+  btn.classList.add('added');
+  btn.innerHTML='<i class="ti ti-check"></i> Added';
+  cartQty++;
+  document.getElementById('cartCount').textContent = cartQty;
+  showToast('Item added to cart!');
+  setTimeout(()=>{btn.classList.remove('added');btn.innerHTML='<i class="ti ti-shopping-cart"></i> Add'},1500);
+}
+
+function toggleWish(el){
+  el.classList.toggle('active');
+  if(el.classList.contains('active')) el.innerHTML='<i class="ti ti-heart-filled" style="color:var(--red)"></i>';
+  else el.innerHTML='<i class="ti ti-heart"></i>';
+}
+
+function toggleWishlist(){showToast('Opening wishlist...')}
+
+function openCart(){
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartDrawer').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCart(){
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function changeQty(btn, delta){
+  const val = btn.parentElement.querySelector('.qty-val');
+  let q = parseInt(val.textContent) + delta;
+  if(q < 1) q = 1;
+  val.textContent = q;
+}
+
+function handleSort(sel){showToast('Sorted by: '+sel.value)}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function scrollToProducts(){
+  document.getElementById('productsSection').scrollIntoView({behavior:'smooth'});
+}
+
+// Countdown timer
+let secs = 3600+23*60+45;
+function tick(){
+  secs--;
+  if(secs<0)secs=0;
+  const h=Math.floor(secs/3600);
+  const m=Math.floor((secs%3600)/60);
+  const s=secs%60;
+  document.getElementById('countdown').textContent=
+    String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+setInterval(tick,1000);
+
+// View toggle
+document.querySelectorAll('.view-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  };
+});
+
+// Page btn clicks
+document.querySelectorAll('.page-btn').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.page-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  };
+});
+</script>
+</body>
+</html>
